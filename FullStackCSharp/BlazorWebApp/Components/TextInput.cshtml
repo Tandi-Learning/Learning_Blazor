@@ -1,0 +1,22 @@
+﻿@using SharedLibrary
+
+<label>@DisplayName</label>
+<input type="text" class="form-control" placeholder="@DisplayName" oninput="@(e => OnFieldChanged(e.Value))" value="@Model.GetValue(FieldName)" />
+<small class="form-text" style="color:darkred;">@Model.Errors(FieldName)</small>
+
+@functions {
+
+    [Parameter]
+    ModelBase Model { get; set; }
+
+    [Parameter]
+    String FieldName { get; set; }
+
+    [Parameter]
+    String DisplayName { get; set; }
+
+    public void OnFieldChanged(object value)
+    {
+        Model.SetValue(FieldName, value);
+    }
+}

@@ -1,0 +1,58 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/tsunarto/codes/Learning_Blazor/FullStackCSharp/SharedLibrary/SharedLibrary.csproj": {}
+  },
+  "projects": {
+    "/Users/tsunarto/codes/Learning_Blazor/FullStackCSharp/SharedLibrary/SharedLibrary.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/tsunarto/codes/Learning_Blazor/FullStackCSharp/SharedLibrary/SharedLibrary.csproj",
+        "projectName": "SharedLibrary",
+        "projectPath": "/Users/tsunarto/codes/Learning_Blazor/FullStackCSharp/SharedLibrary/SharedLibrary.csproj",
+        "packagesPath": "/Users/tsunarto/.nuget/packages/",
+        "outputPath": "/Users/tsunarto/codes/Learning_Blazor/FullStackCSharp/SharedLibrary/obj/",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "/Users/tsunarto/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "dependencies": {
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      }
+    }
+  }
+}

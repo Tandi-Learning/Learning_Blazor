@@ -1,0 +1,54 @@
+﻿@page "/registrationform"
+@inject HttpClient Http
+@using SharedLibrary
+
+<h1>Registration Form</h1>
+
+@if (!registrationComplete)
+{
+    <form>
+        <div class="form-group">
+            <TextInput Model="model" FieldName="FirstName" DisplayName="First Name" />
+        </div>
+        <div class="form-group">
+            <TextInput Model="model" FieldName="LastName" DisplayName="Last Name" />
+        </div>
+        <div class="form-group">
+            <TextInput Model="model" FieldName="Email" DisplayName="Email" />
+        </div>
+        <div class="form-group">
+            <TextInput Model="model" FieldName="Phone" DisplayName="Phone" />
+        </div>
+
+        <button type="button" class="btn btn-primary" onclick="@Register" disabled="@model.HasErrors()">Register</button>
+    </form>
+}
+else
+{
+    <h2>Registration Complete!</h2>
+}
+
+@functions {
+    bool registrationComplete = false;
+    RegistrationData model { get; set; }
+
+
+    protected override void OnInit()
+    {
+        base.OnInit();
+        model = new RegistrationData() { FirstName = "test", LastName = "test", Email = "test@test.com", Phone = "1234567890" };
+        model.ModelChanged += ModelChanged;
+        model.CheckRules();
+    }
+
+    private void ModelChanged(object sender, EventArgs e)
+    {
+        base.StateHasChanged();
+    }
+
+    async Task Register()
+    {
+        await Http.PostJsonAsync<RegistrationData>("https://localhost:44332/api/Registration", model);
+        registrationComplete = true;
+    }
+}
