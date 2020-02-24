@@ -36,9 +36,9 @@ else
     protected override void OnInit()
     {
         base.OnInit();
-        model = new RegistrationData() { FirstName = "test", LastName = "test", Email = "test@test.com", Phone = "1234567890" };
+        model = new RegistrationData(); // { FirstName = "test", LastName = "test", Email = "test@test.com", Phone = "1234567890" };
         model.ModelChanged += ModelChanged;
-        model.CheckRules();
+        // model.CheckRules();
     }
 
     private void ModelChanged(object sender, EventArgs e)
