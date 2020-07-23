@@ -15,7 +15,7 @@ namespace BethanysPieShopHRM.Wasm
 
             // builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddHttpClient<IEmployeeDataService, EmployeeDataService>(client => {
-                client.BaseAddress = new Uri("https://localhost:44350/");
+                client.BaseAddress = new Uri("http://localhost:44350/");
             });
 
             await builder.Build().RunAsync();
