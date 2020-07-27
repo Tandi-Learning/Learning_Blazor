@@ -89,6 +89,12 @@ namespace BethanysPieShopHRM.Wasm.Pages
             }
         }
 
+        protected void HandleInvalidSubmit()
+        {
+            StatusClass = "alert-danger";
+            Message = "There are some validation errors. Please try again";
+        }
+
         protected async Task DeleteEmployee()
         {
             await EmployeeDataService.DeleteEmployee(Employee.EmployeeId);

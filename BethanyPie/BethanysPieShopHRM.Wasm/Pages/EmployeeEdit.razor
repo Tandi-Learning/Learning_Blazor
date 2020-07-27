@@ -12,8 +12,10 @@
 
         <h1 class="page-title">Details for @Employee.FirstName @Employee.LastName</h1>
 
-
-        <EditForm Model="@Employee" OnValidSubmit="@HandleValidSubmit">
+         <EditForm 
+            Model="@Employee" 
+            OnValidSubmit="@HandleValidSubmit" 
+            OnInvalidSubmit="@HandleInvalidSubmit">
 
             <DataAnnotationsValidator />
             <ValidationSummary />
@@ -63,10 +65,9 @@
                 <label for="country" class="col-sm-3">Country: </label>
                 <InputSelect id="country" class="form-control col-sm-8" @bind-Value="@CountryId">
                     @foreach (var country in Countries)
-                        {
+                    {
                         <option value="@country.CountryId">@country.Name</option>
-                        }
-                  
+                    }
                 </InputSelect>
             </div>
 
@@ -145,12 +146,12 @@
                 </a>
             }
 
+            <a class="btn btn-outline-primary" @onclick="@NavigateToOverview">Back to overview</a>
         </EditForm>
     }
     else
     {
-    <div class="alert @StatusClass">@Message</div>
-    <a class="btn btn-outline-primary" @onclick="@NavigateToOverview">Back to overview</a>
-
+        <div class="alert @StatusClass">@Message</div>
+        <a class="btn btn-outline-primary" @onclick="@NavigateToOverview">Back to overview</a>
     }
 </section>

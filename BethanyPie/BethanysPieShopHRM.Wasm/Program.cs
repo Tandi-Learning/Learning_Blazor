@@ -17,6 +17,12 @@ namespace BethanysPieShopHRM.Wasm
             builder.Services.AddHttpClient<IEmployeeDataService, EmployeeDataService>(client => {
                 client.BaseAddress = new Uri("http://localhost:44350/");
             });
+            builder.Services.AddHttpClient<ICountryDataService, CountryDataService>(client => {
+                client.BaseAddress = new Uri("http://localhost:44350/");
+            });
+            builder.Services.AddHttpClient<IJobCategoryDataService, JobCategoryDataService>(client => {
+                client.BaseAddress = new Uri("http://localhost:44350/");
+            });
 
             await builder.Build().RunAsync();
         }
