@@ -39,4 +39,8 @@ else
             }
         </tbody>
     </table>
+
 }
+
+<button @onclick="QuickAddEmployee" class="btn btn-dark table-btn quick-add-btn"><i class="fas fa-plus"></i></button>
+<AddEmployeeDialog @ref="AddEmployeeDialog" CloseEventCallback="@AddEmployeeDialog_OnDialogClose"></AddEmployeeDialog> 
