@@ -9,7 +9,11 @@
     }
     else
     {
-        <table class="table">
+        <Blazor.FlexGrid.Components.GridView
+            DataAdapter="@Expenses"
+            PageSize="3"
+        />
+        @*<table class="table">
             <thead>
                 <tr>
                     <th>Expense ID</th>
@@ -35,6 +39,6 @@
                 </tr>
                 }
             </tbody>
-        </table>
+        </table>*@
     }
     </div>
