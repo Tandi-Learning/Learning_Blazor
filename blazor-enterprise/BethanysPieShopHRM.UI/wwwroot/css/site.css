@@ -239,8 +239,6 @@ nav {
     color: red;
 }
 
-
-
 #sidebar {
     color: #fff;
     transition: all 0.3s;
@@ -312,4 +310,9 @@ a[data-toggle="collapse"] {
 
 #sidebar .toggle-show {
     display: block;
+}
+
+.active {
+    font-weight: bold;
+    color: purple !important;
 }
