@@ -6,6 +6,7 @@ using BethanysPieShopHRM.UI.Services;
 using BethanysPieShopHRM.Shared;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.ProtectedBrowserStorage;
 
 namespace BethanysPieShopHRM.UI.Pages
 {
@@ -19,6 +20,9 @@ namespace BethanysPieShopHRM.UI.Pages
 
         [Inject]
         public IJobCategoryDataService JobCategoryDataService { get; set; }
+
+        [Inject]
+        public ProtectedLocalStorage LocalStorageService { get; set; }
 
         [Inject] 
         public NavigationManager NavigationManager { get; set; }
@@ -50,7 +54,13 @@ namespace BethanysPieShopHRM.UI.Pages
 
             int.TryParse(EmployeeId, out var employeeId);
 
-            if (employeeId == 0) //new employee is being created
+            var savedEmployee = await LocalStorageService.GetAsync<Employee>("Employee");
+
+            if (savedEmployee != null && employeeId == 0)
+            {
+                Employee = savedEmployee;
+            }
+            else if (employeeId == 0) //new employee is being created
             {
                 //add some defaults
                 Employee = new Employee { CountryId = 1, JobCategoryId = 1, BirthDate = DateTime.Now, JoinedDate = DateTime.Now };
@@ -108,6 +118,12 @@ namespace BethanysPieShopHRM.UI.Pages
             Message = "Deleted successfully";
 
             Saved = true;
+        }
+
+        protected async Task TempSave()
+        {
+            await LocalStorageService.SetAsync("Employee", Employee);
+            NavigationManager.NavigateTo("/employeeoverview");
         }
 
         protected void NavigateToOverview()

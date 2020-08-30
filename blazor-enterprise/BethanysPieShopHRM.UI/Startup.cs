@@ -43,6 +43,8 @@ namespace BethanysPieShopHRM.UI
             services.AddScoped<ISurveyDataService, SurveyDataService>();
             services.AddScoped<IExpenseApprovalService, ExpenseApprovalService>();
 
+            services.AddProtectedBrowserStorage();
+
             services.AddFlexGridServerSide(cfg =>
             {
                 cfg.ApplyConfiguration(new ExpenseGridConfiguration());
