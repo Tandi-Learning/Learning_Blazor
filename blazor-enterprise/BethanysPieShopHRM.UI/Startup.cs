@@ -65,7 +65,7 @@ namespace BethanysPieShopHRM.UI
 
             // app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseFlexGrid(env.WebRootPath);
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
