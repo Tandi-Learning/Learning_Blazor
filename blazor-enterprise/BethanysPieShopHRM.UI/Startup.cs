@@ -8,6 +8,8 @@ using BethanysPieShopHRM.UI.Services;
 using BethanysPieShopHRM.UI.Data;
 using Blazor.FlexGrid;
 using BethanysPieShopHRM.UI.Pages;
+using BethanysPieShopHRM.UI.Extensions;
+using System;
 
 namespace BethanysPieShopHRM.UI
 {
@@ -27,20 +29,36 @@ namespace BethanysPieShopHRM.UI
             services.AddRazorPages();
             services.AddServerSideBlazor().AddCircuitOptions(options => { options.DetailedErrors = true; });
             
-            services.AddScoped<HttpClient>(s =>
-            {
-                var client = new HttpClient { BaseAddress = new System.Uri("https://localhost:44340/") }; 
-                return client;
-            });
+            var pieShopURI = new Uri("https://localhost:44340");
+            var recruitingURI = new Uri("https://localhost:44350");
+
+            services.RegisterHttpClient<IEmployeeDataService, EmployeeDataService>(pieShopURI);
+            services.RegisterHttpClient<ICountryDataService, CountryDataService>(pieShopURI);
+            services.RegisterHttpClient<IJobCategoryDataService, JobCategoryDataService>(pieShopURI);
+            services.RegisterHttpClient<ITaskDataService, TaskDataService>(pieShopURI);
+            services.RegisterHttpClient<ISurveyDataService, SurveyDataService>(pieShopURI);
+            services.RegisterHttpClient<IExpenseDataService, ExpenseDataService>(pieShopURI);
+            services.RegisterHttpClient<ICurrencyDataService, CurrencyDataService>(pieShopURI);
+
+            //services.AddTransient<IJobDataService, JobsDataService>();
+
+            // services.AddScoped<HttpClient>(s =>  
+            // {
+            //     var client = new HttpClient { BaseAddress = new System.Uri("https://localhost:44340/") }; 
+            //     return client;
+            // });
 
             //services.AddScoped<IEmployeeDataService, MockEmployeeDataService>();
-            services.AddScoped<IEmployeeDataService, EmployeeDataService>();
-            services.AddScoped<ICountryDataService, CountryDataService>();
-            services.AddScoped<IJobCategoryDataService, JobCategoryDataService>();
-            services.AddScoped<IExpenseDataService, ExpenseDataService>();
-            services.AddScoped<ITaskDataService, TaskDataService>();
+            // services.AddScoped<IEmployeeDataService, EmployeeDataService>();
+            // services.AddScoped<ICountryDataService, CountryDataService>();
+            // services.AddScoped<IJobCategoryDataService, JobCategoryDataService>();
+            // services.AddScoped<IExpenseDataService, ExpenseDataService>();
+            // services.AddScoped<ITaskDataService, TaskDataService>();
+            // services.AddScoped<ISurveyDataService, SurveyDataService>();
+            // services.AddScoped<ICurrencyDataService, CurrencyDataService>();
+
+
             services.AddScoped<IEmailService, EmailService>();
-            services.AddScoped<ISurveyDataService, SurveyDataService>();
             services.AddScoped<IExpenseApprovalService, ExpenseApprovalService>();
 
             services.AddProtectedBrowserStorage();
