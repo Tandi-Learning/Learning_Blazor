@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using BethanysPieShopHRM.Shared;
+﻿using BethanysPieShopHRM.Shared;
+using System.Threading.Tasks;
 
 namespace BethanysPieShopHRM.UI.Services
 {

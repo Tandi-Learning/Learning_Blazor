@@ -21,8 +21,8 @@ namespace BethanysPieShopHRM.UI.Pages
         public List<Marker> MapMarkers { get; set; } = new List<Marker>();
 
         protected string JobCategory = string.Empty;
-       
-        public Employee Employee { get; set; } = new Employee();
+
+        public Employee Employee { get; set; } = new Employee() { Address = new Address(), Contact = new Contact() };
 
         protected override async Task OnInitializedAsync()
         {
@@ -30,7 +30,7 @@ namespace BethanysPieShopHRM.UI.Pages
 
             MapMarkers = new List<Marker>
             {
-                new Marker{Description = $"{Employee.FirstName} {Employee.LastName}",  ShowPopup = false, X = Employee.Longitude, Y = Employee.Latitude}
+                new Marker{Description = $"{Employee.FirstName} {Employee.LastName}",  ShowPopup = false, X = Employee.Address.Longitude, Y = Employee.Address.Latitude}
             };
             JobCategory = (await JobCategoryDataService.GetJobCategoryById(Employee.JobCategoryId)).JobCategoryName;
         }

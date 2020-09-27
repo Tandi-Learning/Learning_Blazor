@@ -39,24 +39,7 @@ namespace BethanysPieShopHRM.UI
             services.RegisterHttpClient<ISurveyDataService, SurveyDataService>(pieShopURI);
             services.RegisterHttpClient<IExpenseDataService, ExpenseDataService>(pieShopURI);
             services.RegisterHttpClient<ICurrencyDataService, CurrencyDataService>(pieShopURI);
-
-            //services.AddTransient<IJobDataService, JobsDataService>();
-
-            // services.AddScoped<HttpClient>(s =>  
-            // {
-            //     var client = new HttpClient { BaseAddress = new System.Uri("https://localhost:44340/") }; 
-            //     return client;
-            // });
-
-            //services.AddScoped<IEmployeeDataService, MockEmployeeDataService>();
-            // services.AddScoped<IEmployeeDataService, EmployeeDataService>();
-            // services.AddScoped<ICountryDataService, CountryDataService>();
-            // services.AddScoped<IJobCategoryDataService, JobCategoryDataService>();
-            // services.AddScoped<IExpenseDataService, ExpenseDataService>();
-            // services.AddScoped<ITaskDataService, TaskDataService>();
-            // services.AddScoped<ISurveyDataService, SurveyDataService>();
-            // services.AddScoped<ICurrencyDataService, CurrencyDataService>();
-
+            services.RegisterHttpClient<IJobDataService, JobsDataService>(recruitingURI);
 
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IExpenseApprovalService, ExpenseApprovalService>();

@@ -1,24 +1,25 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
-using BethanysPieShopHRM.UI.Components;
+using BethanysPieShopHRM.ComponentsLibrary.Map;
 using BethanysPieShopHRM.UI.Services;
 using BethanysPieShopHRM.Shared;
 using Microsoft.AspNetCore.Components;
 
 namespace BethanysPieShopHRM.UI.Pages
 {
-    public class StaffDirectoryBase: ComponentBase
+    public class JobDetailBase : ComponentBase
     {
         [Inject]
-        public IEmployeeDataService EmployeeDataService { get; set; }
+        public IJobDataService JobDataService { get; set; }
 
-        public List<Employee> Employees { get; set; }
+        [Parameter]
+        public int Id { get; set; }
+       
+        public Job Job { get; set; } = new Job();
 
         protected override async Task OnInitializedAsync()
         {
-            Employees = (await EmployeeDataService.GetAllEmployees()).ToList();
+            Job = await JobDataService.GetJobById(Id);
         }
     }
 }

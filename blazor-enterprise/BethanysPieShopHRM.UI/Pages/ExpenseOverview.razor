@@ -1,16 +1,5 @@
 ﻿@page "/expenses"
-@using Blazor.FlexGrid.Components.Configuration
-@using BethanysPieShopHRM.Shared
-
 @inherits ExpenseOverviewBase
-
-@inject BlazorComponentColumnCollection<Expense> Collection
-
-@{
-    RenderFragment<Expense> expenseTemp = (expense) => @<a class="btn btn-secondary" href="/expenseedit/@expense.ExpenseId">Edit</a>;
-    Collection.AddColumnValueRenderFunction(w => w.Currency, expenseTemp);
-}
-
 <div class="entity-edit">
     <h1 class="page-title">All Expenses</h1>
 
@@ -20,8 +9,7 @@
     }
     else
     {
-        <Blazor.FlexGrid.Components.GridView DataAdapter="@Expenses" PageSize="3"></Blazor.FlexGrid.Components.GridView>
-        @*<table class="table">
+        <table class="table">
             <thead>
                 <tr>
                     <th>Expense ID</th>
@@ -47,5 +35,6 @@
                 </tr>
                 }
             </tbody>
-        </table>*@}
-</div>
+        </table>
+    }
+    </div>

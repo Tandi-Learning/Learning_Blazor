@@ -31,6 +31,13 @@ namespace RecruitingAPI.Controllers
             return Created("job", newJob);
         }
 
+        [HttpPost("/jobs-custom")]
+        public IActionResult CreateJobCustom(Job newJob)
+        {
+            _jobService.CreateJob(newJob);
+            return Created("job", newJob);
+        }
+
         [HttpPut("/jobs")]
         public IActionResult UpdateJob([FromBody]Job updatedJob)
         {

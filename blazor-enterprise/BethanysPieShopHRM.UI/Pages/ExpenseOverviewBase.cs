@@ -6,7 +6,6 @@ using BethanysPieShopHRM.UI.Components;
 using BethanysPieShopHRM.UI.Services;
 using BethanysPieShopHRM.Shared;
 using Microsoft.AspNetCore.Components;
-using Blazor.FlexGrid.DataAdapters;
 
 namespace BethanysPieShopHRM.UI.Pages
 {
@@ -15,13 +14,12 @@ namespace BethanysPieShopHRM.UI.Pages
         [Inject]
         public IExpenseDataService ExpenseService { get; set; }
 
-        public CollectionTableDataAdapter<Expense> Expenses { get; set; }
+        public List<Expense> Expenses { get; set; }
 
 
         protected override async Task OnInitializedAsync()
         {
-            var data = (await ExpenseService.GetAllExpenses()).ToList();
-            Expenses = new CollectionTableDataAdapter<Expense>(data);
+            Expenses = (await ExpenseService.GetAllExpenses()).ToList();
         }
     }
 }

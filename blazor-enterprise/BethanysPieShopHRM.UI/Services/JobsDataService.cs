@@ -31,21 +31,19 @@ namespace BethanysPieShopHRM.UI.Services
 
         public async Task AddJob(Job newJob)
         {
-            // Commented code can be used for final clip!
+            var dictionary = newJob.GetType().GetProperties()
+                .ToDictionary(p => p.Name, p => p.GetValue(newJob).ToString());
 
-            //var dictionary = newJob.GetType().GetProperties()
-            //    .ToDictionary(p => p.Name, p => p.GetValue(newJob).ToString());
+            var requestMessage = new HttpRequestMessage()
+            {
+                Method = new HttpMethod("POST"),
+                RequestUri = new Uri("https://localhost:5001/jobs"),
+                Content = new FormUrlEncodedContent(dictionary)
+            };
 
-            //var requestMessage = new HttpRequestMessage()
-            //{
-            //    Method = new HttpMethod("POST"),
-            //    RequestUri = new Uri("https://localhost:5001/jobs"),
-            //    Content = new FormUrlEncodedContent(dictionary)
-            //};
+            requestMessage.Headers.Add("x-custom", "secretCode");
 
-            //requestMessage.Headers.Add("x-custom", "secretCode");
-
-            await _client.PostJsonAsync("jobs", newJob);
+            await _client.SendAsync(requestMessage);
         }
 
         public async Task UpdateJob(Job updatedJob)

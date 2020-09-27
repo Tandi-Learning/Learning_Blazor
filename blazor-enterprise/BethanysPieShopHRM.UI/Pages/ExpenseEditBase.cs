@@ -12,16 +12,19 @@ namespace BethanysPieShopHRM.UI.Pages
     public class ExpenseEditBase : ComponentBase
     {
         [Inject]
-        public IExpenseDataService ExpenseService { get; set; }
+        public IExpenseDataService ExpenseDataService { get; set; }
 
         [Inject]
         public IEmployeeDataService EmployeeDataService { get; set; }
 
         [Inject]
-        public NavigationManager NavigationManager { get; set; }
+        public ICurrencyDataService CurrencyDataService { get; set; }
 
         [Inject]
         public IExpenseApprovalService ExpenseApprovalService { get; set; }
+
+        [Inject]
+        public NavigationManager NavigationManager { get; set; }
 
         public Expense Expense { get; set; } = new Expense();
 
@@ -38,13 +41,13 @@ namespace BethanysPieShopHRM.UI.Pages
         protected override async Task OnInitializedAsync()
         {
             Employees = (await EmployeeDataService.GetAllEmployees()).ToList();
-            Currencies = (await ExpenseService.GetAllCurrencies()).ToList();
+            Currencies = (await CurrencyDataService.GetAllCurrencies()).ToList();
 
             int.TryParse(ExpenseId, out var expenseId);
 
             if(expenseId != 0)
             {
-                Expense = await ExpenseService.GetExpenseById(int.Parse(ExpenseId));
+                Expense = await ExpenseDataService.GetExpenseById(int.Parse(ExpenseId));
             } 
             else
             {
@@ -58,20 +61,19 @@ namespace BethanysPieShopHRM.UI.Pages
         protected async Task HandleValidSubmit()
         {
             Expense.EmployeeId = int.Parse(EmployeeId);
-            Expense.CurrencyId = int.Parse(CurrencyId);            
+            Expense.CurrencyId = int.Parse(CurrencyId);
 
-            Expense.Amount *= Currencies.FirstOrDefault(x => x.CurrencyId == Expense.CurrencyId).USExchange;
-
+            // We can deny certain expenses automatically
             Expense.Status = await ExpenseApprovalService.GetExpenseStatus(Expense);
 
             if (Expense.ExpenseId == 0) // New 
             {
-                await ExpenseService.AddExpense(Expense);
+                await ExpenseDataService.AddExpense(Expense);
                 NavigationManager.NavigateTo("/expenses");
             } 
             else
             {
-                await ExpenseService.UpdateExpense(Expense);
+                await ExpenseDataService.UpdateExpense(Expense);
                 NavigationManager.NavigateTo("/expenses");
             }
         }
