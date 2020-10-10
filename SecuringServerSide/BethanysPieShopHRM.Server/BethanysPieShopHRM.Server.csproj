@@ -7,5 +7,4 @@
   <ItemGroup>
     <ProjectReference Include="..\BethanysPieShopHRM.App\BethanysPieShopHRM.App.csproj" />
   </ItemGroup>
-
 </Project>
