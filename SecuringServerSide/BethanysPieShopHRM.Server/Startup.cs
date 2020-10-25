@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BethanysPieShopHRM.App.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
@@ -43,11 +44,46 @@ namespace BethanysPieShopHRM.Server
                 client.BaseAddress = new Uri("https://localhost:44340/");
             });
 
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options =>
+            // **** use cookie authentication ****
+            // services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            //     .AddCookie(options =>
+            //     {
+            //         options.Cookie.Name = "Super.Scarlet.Cookie";
+            //     });
+
+            // **** use asp.net identity for authentication ****
+            // services.AddAuthentication("Identity.Application")
+            //     .AddCookie(options =>
+            //     {
+            //         options.Cookie.Name = "Super.Scarlet.Identity.Cookie";
+            //     });
+            
+            // **** use openid connect protocol to connect to IDP
+            services.AddAuthentication(options =>
                 {
-                    options.Cookie.Name = "Super.Scarlet.Cookie";
-                });
+                    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+                })
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddOpenIdConnect(
+                    OpenIdConnectDefaults.AuthenticationScheme,
+                    options =>
+                    {
+                        options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                        options.Authority = "https://localhost:44333";
+                        options.ClientId = "bethanyspieshophr";
+                        options.ClientSecret = "108B7B4F-BEFC-4DD2-82E1-7F025F0F75D0";
+                        options.ResponseType = "code";
+
+                        options.Scope.Add("openid");
+                        options.Scope.Add("profile");
+                        options.Scope.Add("email");
+
+                        options.SaveTokens = true;
+                        options.GetClaimsFromUserInfoEndpoint = true;
+
+                        options.TokenValidationParameters.NameClaimType = "name";  
+                    });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
