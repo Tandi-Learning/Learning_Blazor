@@ -1,3 +1,21 @@
+@using BethanysPieShopHRM.App.Services
+@inject BethanysPieShopHRM.App.Services.TokenProvider TokenProvider
+
+@code {
+    [Parameter]
+    public InitialApplicationState InitialState { get; set; }
+
+    protected override Task OnInitializedAsync()
+    {
+        TokenProvider.AccessToken = InitialState.AccessToken;
+        TokenProvider.RefreshToken = InitialState.RefreshToken;
+        TokenProvider.ExpiresAt = InitialState.ExpiresAt;
+        TokenProvider.XsrfToken = InitialState.XsrfToken;
+
+        return base.OnInitializedAsync();
+    }
+}
+
 <CascadingAuthenticationState>
     <Router AppAssembly="@typeof(App).Assembly">
         <Found Context="routeData">

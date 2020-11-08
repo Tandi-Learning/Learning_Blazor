@@ -1,4 +1,5 @@
 ﻿using BethanysPieShopHRM.Shared;
+using IdentityModel.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,14 +13,24 @@ namespace BethanysPieShopHRM.App.Services
     public class EmployeeDataService: IEmployeeDataService
     {
         private readonly HttpClient _httpClient;
+        private readonly TokenProvider _tokenProvider;
+        private readonly TokenManager _tokenManager;
 
-        public EmployeeDataService(HttpClient httpClient)
+        public EmployeeDataService(
+            HttpClient httpClient,
+            TokenProvider tokenProvider,
+            TokenManager tokenManager
+            )
         {
             _httpClient = httpClient;
+            _tokenProvider = tokenProvider;
+            _tokenManager = tokenManager;
         }
 
         public async Task<IEnumerable<Employee>> GetAllEmployees()
         {
+            string accessToken = await _tokenManager.RetrieveAccessTokenAsync();
+            _httpClient.SetBearerToken(accessToken);
             return await JsonSerializer.DeserializeAsync<IEnumerable<Employee>>
                 (await _httpClient.GetStreamAsync($"api/employee"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         }

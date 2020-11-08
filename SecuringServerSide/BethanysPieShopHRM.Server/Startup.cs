@@ -60,30 +60,35 @@ namespace BethanysPieShopHRM.Server
             
             // **** use openid connect protocol to connect to IDP
             services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+            })
+            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddOpenIdConnect(
+                OpenIdConnectDefaults.AuthenticationScheme,
+                options =>
                 {
-                    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-                })
-                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddOpenIdConnect(
-                    OpenIdConnectDefaults.AuthenticationScheme,
-                    options =>
-                    {
-                        options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                        options.Authority = "https://localhost:44333";
-                        options.ClientId = "bethanyspieshophr";
-                        options.ClientSecret = "108B7B4F-BEFC-4DD2-82E1-7F025F0F75D0";
-                        options.ResponseType = "code";
+                    options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    options.Authority = "https://localhost:44333";
+                    options.ClientId = "bethanyspieshophr";
+                    options.ClientSecret = "108B7B4F-BEFC-4DD2-82E1-7F025F0F75D0";
+                    options.ResponseType = "code";
 
-                        options.Scope.Add("openid");
-                        options.Scope.Add("profile");
-                        options.Scope.Add("email");
+                    options.Scope.Add("openid");
+                    options.Scope.Add("profile");
+                    options.Scope.Add("email");
+                    options.Scope.Add("bethanyspieshophrapi");
+                    options.Scope.Add("offline_access");
 
-                        options.SaveTokens = true;
-                        options.GetClaimsFromUserInfoEndpoint = true;
+                    options.SaveTokens = true;
+                    options.GetClaimsFromUserInfoEndpoint = true;
 
-                        options.TokenValidationParameters.NameClaimType = "name";  
-                    });
+                    options.TokenValidationParameters.NameClaimType = "name";  
+                });
+
+            services.AddScoped<TokenProvider>();
+            services.AddScoped<TokenManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

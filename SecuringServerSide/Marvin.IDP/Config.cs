@@ -38,14 +38,14 @@ namespace Marvin.IDP
                     ClientName = "Bethany's Pie Shop HRM",
                     AllowOfflineAccess = true,
                     AccessTokenLifetime = 120,
-                    RequireConsent = false,
+                    RequireConsent = true,
                     RequirePkce = true,
                     AllowedGrantTypes = GrantTypes.Code,
                     ClientSecrets = { 
                         new Secret("108B7B4F-BEFC-4DD2-82E1-7F025F0F75D0".Sha256()) },
                     RedirectUris = { "https://localhost:44301/signin-oidc" },
                     PostLogoutRedirectUris = { "https://localhost:44301/signout-oidc" },
-                    AllowedScopes = { "openid", "profile", "email", "bethanyspieshophrapi" }
+                    AllowedScopes = { "openid", "profile", "email", "bethanyspieshophrapi" },
                 }             
             };
     }

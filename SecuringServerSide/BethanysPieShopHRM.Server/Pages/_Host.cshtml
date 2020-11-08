@@ -1,10 +1,14 @@
 ﻿@page "/"
 @using BethanysPieShopHRM.App
+@using Microsoft.AspNetCore.Authentication
+@using System.Globalization;
+
 @namespace BethanysPieShopHRM.Server.Pages
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     Layout = null;
 }
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf;
 
 <!DOCTYPE html>
 <html lang="en">
@@ -24,8 +28,27 @@
     <link href="_content/BethanysPieShopHRM.ComponentsLibrary/leaflet/leaflet.css" rel="stylesheet" />
 </head>
 <body>
+    @{
+        var initialTokenState = new BethanysPieShopHRM.App.Services.InitialApplicationState
+        {
+            XsrfToken = Xsrf.GetAndStoreTokens(HttpContext).RequestToken,
+            AccessToken = await HttpContext.GetTokenAsync("access_token"),
+            RefreshToken = await HttpContext.GetTokenAsync("refresh_token"),
+        };
+        var expiresAt = await HttpContext.GetTokenAsync("expires_at");
+        if (DateTimeOffset.TryParse(
+            expiresAt,
+            CultureInfo.InvariantCulture,
+            DateTimeStyles.None,
+            out var expiration))
+            initialTokenState.ExpiresAt = expiration;
+        else
+            initialTokenState.ExpiresAt = DateTimeOffset.UtcNow;
+    }
+
     <app>
-        <component type="typeof(App)" render-mode="ServerPrerendered" />
+        <component type="typeof(App)" render-mode="ServerPrerendered"
+                   param-InitialState="initialTokenState"/>
     </app>
 
     <div id="blazor-error-ui">

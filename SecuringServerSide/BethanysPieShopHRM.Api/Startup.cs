@@ -1,6 +1,9 @@
 using BethanysPieShopHRM.Api.Models;
+using IdentityServer4.AccessTokenValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,8 +37,22 @@ namespace BethanysPieShopHRM.Api
                 options.AddPolicy("Open", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             });
 
-            services.AddControllers();
-                //.AddJsonOptions(options => options.JsonSerializerOptions.ca);
+            var requireAuthenticatedUserPolicy = new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .Build();
+            
+            services.AddControllers(configure =>
+            {
+                configure.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy ));
+            });
+            //.AddJsonOptions(options => options.JsonSerializerOptions.ca);
+
+            services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)    // Bearer
+                .AddIdentityServerAuthentication(options =>
+                {
+                    options.Authority = "https://localhost:44333";
+                    options.ApiName = "bethanyspieshophrapi";
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +67,7 @@ namespace BethanysPieShopHRM.Api
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseCors("Open");

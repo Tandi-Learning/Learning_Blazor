@@ -27,10 +27,10 @@ namespace BethanysPieShopHRM.Server.Areas.Identity.Pages.Account
             _logger = logger;
         }
 
-        public async Task OnGet()
+        public async Task OnGetAsync()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
+            // await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            // await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
             // if (returnUrl != null)
             // {
             //     return LocalRedirect(returnUrl);
@@ -41,8 +41,10 @@ namespace BethanysPieShopHRM.Server.Areas.Identity.Pages.Account
             // }
         }
 
-        public async Task<IActionResult> OnPost(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
             // await _signInManager.SignOutAsync();
             // _logger.LogInformation("User logged out.");
             // if (returnUrl != null)
