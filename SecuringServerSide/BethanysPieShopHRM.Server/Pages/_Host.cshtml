@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using BethanysPieShopHRM.App
+@using BethanysPieShopHRM.App.Services
 @using Microsoft.AspNetCore.Authentication
 @using System.Globalization;
 
@@ -29,7 +30,7 @@
 </head>
 <body>
     @{
-        var initialTokenState = new BethanysPieShopHRM.App.Services.InitialApplicationState
+        var initialTokenState = new InitialApplicationState
         {
             XsrfToken = Xsrf.GetAndStoreTokens(HttpContext).RequestToken,
             AccessToken = await HttpContext.GetTokenAsync("access_token"),
